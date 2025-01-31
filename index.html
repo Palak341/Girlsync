@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OvaryWise - PCOS Risk Assessment: Empowering women to assess their PCOS risk with an interactive tool.">
+  <title>OvaryWise - PCOS Risk Assessment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title-container">
+        <div class="title-text">
+          <h1>Girlsync</h1>
+          <p>Assess your PCOS Risk</p>
+        </div>
+        <img src="https://ezraclinic.sg/wp-content/uploads/2022/05/pcos-symbol.png" alt="OvaryWise Logo">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro">
+      <div class="container">
+        <h2>Take Charge of Your Health</h2>
+        <p>Discover your PCOS risk with Girlsync's engaging questionnaire. Receive tailored insights and guidance just for you.</p>
+        
+        <div class="consent">
+          <label>
+            <input type="checkbox" id="consent-checkbox"> I understand and agree to proceed with the assessment.
+          </label>
+        </div>
+        <a href="assessment.html" class="cta-button disabled" id="start-assessment" disabled>Start Assessment</a>
+      </div>
+    </section>
+
+    <section class="resources">
+      <div class="container">
+        <h2>Learn More About PCOS</h2>
+        <ul>
+          <li><a href="https://www.hopkinsmedicine.org/health/conditions-and-diseases/polycystic-ovary-syndrome-pcos" target="_blank">What is PCOS?</a></li>
+          <li><a href="https://www.who.int/news-room/fact-sheets/detail/polycystic-ovary-syndrome" target="_blank">Symptoms & Causes</a></li>
+          <li><a href="https://www.healthline.com/health/polycystic-ovary-disease" target="_blank">Management Tips</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="video-carousel">
+      <div class="container">
+        <div class="carousel">
+          <button class="prev-btn" onclick="changeVideo(-1)">&#10094;</button>
+          <div class="carousel-content">
+            <iframe class="carousel-video" src="https://www.youtube.com/embed/HzG-zaMYZZ8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="carousel-video" src="https://www.youtube.com/embed/Az9lWdqebaU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe class="carousel-video" src="https://www.youtube.com/embed/TduTthL5Fr8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <button class="next-btn" onclick="changeVideo(1)">&#10095;</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="disclaimer">
+      <div class="container">
+        <p><strong>Disclaimer:</strong> OvaryWise is an informational tool and not a diagnostic service. Please consult a healthcare professional for medical advice.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 OvaryWise. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
