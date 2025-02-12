@@ -2,6 +2,7 @@
 
 ## Description
 GirlSync is a web-based health tool designed to help individuals track their menstrual health and assess their PCOS risk. By answering a series of personalized questions, users receive insights into their cycle patterns, symptoms, and potential PCOS indicators. GirlSync aims to promote early awareness, reproductive health tracking, and informed medical consultations.
+Deck attached: https://drive.google.com/file/d/1ToAwwR2iduzPOR8wpCn2Gbw7b650NKpB/view?usp=drive_link
 
 ## Table of Contents
 - [Usage](#usage)
