@@ -14,7 +14,7 @@ GirlSync is a web-based health tool designed to help individuals track their men
 - [Acknowledgements](#acknowledgements)
 
 ## Usage
-1. Access the Tool – Open the web page by clicking on girlsync.html.
+1. Access the Tool – Open the web page by clicking on [girlsync.html](https://palak341.github.io/Girlsync/).
 2. Answer the Questions – Input details about your menstrual cycle, symptoms (such as acne, hair loss, or excessive hair growth), body measurements, and family history.
 3. Track Your Progress – A progress bar visually indicates your completion status.
 4. Submit Your Responses – Click Submit to analyze your results.
