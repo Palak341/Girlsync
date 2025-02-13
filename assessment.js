@@ -39,6 +39,21 @@ const questions = [
         help: "Common areas include neck folds, groin, or underarms"
     },
     {
+        question: "Please enter your body measurements",
+        type: "measurements",
+        fields: [
+            {
+                label: "Waist",
+                unit: ["cm", "inches"]
+            },
+            {
+                label: "Hip",
+                unit: ["cm", "inches"]
+            }
+        ]
+    },
+
+    {
         type: "yesno",
         question: "Is there a history of PCOS or diabetes in your family?"
     }
