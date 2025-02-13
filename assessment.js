@@ -10,21 +10,18 @@ const questions = [
     {
         type: "scale",
         question: "How would you rate the amount of excessive hair growth on your body (e.g., face, chest, back)?",
-        image: "images/hirsutism-scale.jpg",
         options: [1, 2, 3, 4, 5],
         labels: ["None", "Mild", "Moderate", "Severe", "Very Severe"]
     },
     {
         type: "scale",
         question: "How would you rate the severity of acne or oily skin?",
-        image: "images/acne-scale.jpg",
         options: [1, 2, 3, 4, 5],
         labels: ["None", "Mild", "Moderate", "Severe", "Very Severe"]
     },
     {
         type: "scale",
         question: "How noticeable is your hair thinning or male-pattern baldness?",
-        image: "images/hairloss-scale.jpg",
         options: [1, 2, 3, 4, 5],
         labels: ["None", "Mild", "Moderate", "Severe", "Very Severe"]
     },
@@ -141,7 +138,6 @@ function validateAllResponses() {
     return true;
 }
 
-
 function loadQuestion(index) {
     const questionData = questions[index];
     let html = `<div class="question-card">
@@ -162,7 +158,6 @@ function loadQuestion(index) {
         case "scale":
             html += `
             <div class="scale-container">
-                ${questionData.image ? `<img src="${questionData.image}" alt="Scale reference">` : ''}
                 <div class="scale-options">
                     ${questionData.options.map((value, i) => `
                         <label class="scale-option">
@@ -173,6 +168,16 @@ function loadQuestion(index) {
                     `).join('')}
                 </div>
             </div>`;
+            if (questionData.question.includes("acne") || questionData.question.includes("baldness")) {
+                html += `
+                <div class="camera-container">
+                    <video id="camera" autoplay></video>
+                    <button onclick="takePhoto()">Capture Image</button>
+                    <canvas id="photoCanvas" style="display:none;"></canvas>
+                    <img id="photoPreview" src="" alt="Photo Preview" style="display:none;">
+                    <p class="note">Note: Images are used only for analysis and not stored permanently.</p>
+                </div>`;
+            }
             break;
 
         case "measurements":
@@ -199,8 +204,134 @@ function loadQuestion(index) {
 
     html += `</div>`;
     questionContainer.innerHTML = html;
-    
+
+    if (questionData.question.includes("acne")) {
+        startCameraWithFaceOutline();
+    }
+
+    if (questionData.question.includes("baldness")) {
+        startCameraWithBaldnessOutline();
+    }
+
     progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+}
+
+function startCameraWithFaceOutline() {
+    const video = document.getElementById('camera');
+    navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+        .then(stream => {
+            video.srcObject = stream;
+            video.addEventListener('play', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                document.querySelector('.camera-container').appendChild(canvas);
+
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    context.beginPath();
+                    context.rect(canvas.width/3, canvas.height/4, canvas.width/3, canvas.height/2);
+                    context.lineWidth = 3;
+                    context.strokeStyle = 'red';
+                    context.stroke();
+                }, 500);
+            });
+        })
+        .catch(err => {
+            console.error("Camera access denied:", err);
+        });
+
+    // Center alignment with vertical layout
+    const container = document.querySelector('.camera-container');
+    container.style.position = 'relative';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
+    container.style.margin = 'auto';
+}
+
+function startCameraWithBaldnessOutline() {
+    const video = document.getElementById('camera');
+    navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+        .then(stream => {
+            video.srcObject = stream;
+            video.addEventListener('play', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                document.querySelector('.camera-container').appendChild(canvas);
+
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    context.beginPath();
+                    context.rect(canvas.width/4, canvas.height/6, canvas.width/2, canvas.height/4);
+                    context.lineWidth = 3;
+                    context.strokeStyle = 'blue';
+                    context.stroke();
+                }, 500);
+            });
+        })
+        .catch(err => {
+            console.error("Camera access denied:", err);
+        });
+
+    // Center alignment with vertical layout
+    const container = document.querySelector('.camera-container');
+    container.style.position = 'relative';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
+    container.style.margin = 'auto';
+}
+
+
+function takePhoto() {
+    const video = document.getElementById('camera');
+    const canvas = document.getElementById('photoCanvas');
+    const photoPreview = document.getElementById('photoPreview');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    const photoUrl = canvas.toDataURL('image/png');
+    photoPreview.src = photoUrl;
+    photoPreview.style.display = 'block';
+    responses['photo'] = photoUrl;
+
+    const imageBlob = dataURItoBlob(photoUrl);
+    uploadImageToServer(imageBlob);
+}
+
+function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
+}
+
+function uploadImageToServer(blob) {
+    const formData = new FormData();
+    formData.append('image', blob, 'photo.png');
+
+    fetch('https://api.imgbb.com/1/upload?key=YOUR_IMGBB_API_KEY', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Image uploaded:', data.data.url);
+        responses['photoUrl'] = data.data.url;
+    })
+    .catch(error => {
+        console.error('Image upload failed:', error);
+    });
 }
 
 loadQuestion(currentQuestionIndex);
