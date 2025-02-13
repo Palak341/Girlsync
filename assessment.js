@@ -169,7 +169,7 @@ function loadQuestion(index) {
                     `).join('')}
                 </div>
             </div>`;
-            if (questionData.question.includes("acne") || questionData.question.includes("baldness")) {
+            if (questionData.question.includes("excessive hair growth") || questionData.question.includes("acne") || questionData.question.includes("baldness")) {
                 html += `
                 <div class="camera-container">
                     <video id="camera" autoplay></video>
@@ -186,13 +186,14 @@ function loadQuestion(index) {
                 ${questionData.fields.map(field => `
                     <div class="measurement-field">
                         <label>${field.label}</label>
-                        <input type="number" name="${field.label.toLowerCase()}" step="0.1">
+                        <input type="number" name="${field.label.toLowerCase()}" step="0.1" oninput="calculateBMI()">
                         <select name="${field.label.toLowerCase()}_unit">
                             ${field.unit.map(u => `<option value="${u}">${u}</option>`).join('')}
                         </select>
                     </div>
                 `).join('')}
             </div>`;
+            html += `<div id="bmi-result" class="bmi-result">BMI: --</div>`;
             break;
 
         case "yesno":
@@ -200,22 +201,139 @@ function loadQuestion(index) {
                 <label><input type="radio" name="response" value="yes">Yes</label>
                 <label><input type="radio" name="response" value="no">No</label>
             </div>`;
+            if (questionData.question.includes("skin darkening")) {
+                html += `
+                <div class="camera-container">
+                    <video id="camera" autoplay></video>
+                    <button onclick="takePhoto()">Capture Image</button>
+                    <canvas id="photoCanvas" style="display:none;"></canvas>
+                    <img id="photoPreview" src="" alt="Photo Preview" style="display:none;">
+                    <p class="note">Note: Images are used only for analysis and not stored permanently.</p>
+                </div>`;
+            }
             break;
     }
 
     html += `</div>`;
     questionContainer.innerHTML = html;
 
-    if (questionData.question.includes("acne")) {
+    if (questionData.question.includes("excessive hair growth") || questionData.question.includes("acne") || questionData.question.includes("baldness")) {
         startCameraWithFaceOutline();
     }
 
-    if (questionData.question.includes("baldness")) {
-        startCameraWithBaldnessOutline();
+    if (questionData.question.includes("skin darkening")) {
+        startCameraWithCircularOutline();
     }
 
     progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
 }
+
+
+function startCameraWithFaceOutline() {
+    const video = document.getElementById('camera');
+    navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+        .then(stream => {
+            video.srcObject = stream;
+            video.addEventListener('play', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                document.querySelector('.camera-container').appendChild(canvas);
+
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    context.beginPath();
+                    context.rect(canvas.width/3, canvas.height/4, canvas.width/3, canvas.height/2);
+                    context.lineWidth = 3;
+                    context.strokeStyle = 'green';
+                    context.stroke();
+                }, 500);
+            });
+        })
+        .catch(err => {
+            console.error("Camera access denied:", err);
+        });
+
+    const container = document.querySelector('.camera-container');
+    container.style.position = 'relative';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
+    container.style.margin = 'auto';
+}
+
+function startCameraWithCircularOutline() {
+    const video = document.getElementById('camera');
+    navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 240 } })
+        .then(stream => {
+            video.srcObject = stream;
+            video.addEventListener('play', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const context = canvas.getContext('2d');
+                document.querySelector('.camera-container').appendChild(canvas);
+
+                setInterval(() => {
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    context.beginPath();
+                    context.arc(canvas.width / 2, canvas.height / 2, canvas.width / 4, 0, 2 * Math.PI);
+                    context.lineWidth = 3;
+                    context.strokeStyle = 'purple';
+                    context.stroke();
+                }, 500);
+            });
+        })
+        .catch(err => {
+            console.error("Camera access denied:", err);
+        });
+
+    const container = document.querySelector('.camera-container');
+    container.style.position = 'relative';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
+    container.style.margin = 'auto';
+}
+
+function takePhoto() {
+    const video = document.getElementById('camera');
+    const canvas = document.getElementById('photoCanvas');
+    const photoPreview = document.getElementById('photoPreview');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+    const photoUrl = canvas.toDataURL('image/png');
+    photoPreview.src = photoUrl;
+    photoPreview.style.display = 'block';
+    responses['photo'] = photoUrl;
+}
+
+function calculateBMI() {
+    const height = parseFloat(document.querySelector('input[name="height"]').value) / 100;
+    const weight = parseFloat(document.querySelector('input[name="weight"]').value);
+    if (height > 0 && weight > 0) {
+        const bmi = (weight / (height * height)).toFixed(2);
+        let category = '';
+        if (bmi < 18.5) {
+            category = 'Underweight';
+        } else if (bmi >= 18.5 && bmi < 24.9) {
+            category = 'Normal weight';
+        } else if (bmi >= 25 && bmi < 29.9) {
+            category = 'Overweight';
+        } else {
+            category = 'Obese';
+        }
+        document.getElementById('bmi-result').textContent = `BMI: ${bmi} (${category})`;
+        document.getElementById('bmi-result').innerHTML += '<br><small>Underweight: <18.5, Normal: 18.5–24.9, Overweight: 25–29.9, Obese: ≥30</small>';
+    } else {
+        document.getElementById('bmi-result').textContent = "BMI: --";
+    }
+}
+
 
 function startCameraWithFaceOutline() {
     const video = document.getElementById('camera');
