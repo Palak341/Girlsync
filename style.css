@@ -311,8 +311,31 @@ header {
 }
 
 .intro-image {
-  flex: 1; /* Take up remaining space */
-  max-width: 600px; /* Limit image width */
+  flex: 1;
+  max-width: 600px;
+  overflow: hidden; /* Hide overflow for the scrolling effect */
+}
+
+.scrolling-gallery {
+  display: flex;
+  gap: 10px; /* Space between images */
+  animation: scrollGallery 20s linear infinite; /* Animation for scrolling */
+}
+
+.scrolling-gallery img {
+  width: 100%; /* Ensure images take full width of their container */
+  height: auto;
+  border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+/* Keyframes for scrolling animation */
+@keyframes scrollGallery {
+  0% {
+    transform: translateX(0); /* Start from the first image */
+  }
+  100% {
+    transform: translateX(-100%); /* Scroll to the end of the gallery */
+  }
 }
 
 .intro-image img {
