@@ -7,37 +7,48 @@
   
   body {
     font-family: 'Arial', sans-serif;
-    background-color: rgb(249, 237, 247);
+    background-color: rgb(246, 226, 243);
     color: #333; /* Minimal Black */
     line-height: 1.6;
     text-align: center; /* Centering overall content */
   }
   
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-  
-  .title-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
-    padding: 10px 0;
-  }
-  
-  .title-text {
-    padding-left: 10px;
-  }
-  
+ /* Reset default margin and padding */
+body, h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #ffffff; /* Add a background color if needed */
+  padding: 20px 0; /* Add padding for spacing */
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.title-text {
+  padding-left: 10px;
+}
+
   
   /* Header Styles */
   header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: #c05a9e; /* Teal */
+    background-color: #ed93cf; /* Teal */
     color: white;
     text-align: center;
     border-bottom: 5px solid #f151d1; /* Darker Teal for separation */
@@ -287,3 +298,78 @@
       transform: translateY(0);
     }
   }
+  /* Intro Section */
+.intro-content {
+  display: flex;
+  align-items: center; /* Vertically center the content and image */
+  gap: 40px; /* Space between text and image */
+}
+
+.intro-text {
+  flex: 1; /* Take up remaining space */
+  text-align: left; /* Align text to the left */
+}
+
+.intro-image {
+  flex: 1; /* Take up remaining space */
+  max-width: 600px; /* Limit image width */
+}
+
+.intro-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Optional: Add rounded corners to the image */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .intro-content {
+    flex-direction: column; /* Stack content and image on smaller screens */
+  }
+
+  .intro-text {
+    text-align: center; /* Center text on smaller screens */
+  }
+
+  .intro-image {
+    max-width: 100%; /* Allow image to take full width on smaller screens */
+  }
+}
+.boxes-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px; /* Adds space between boxes */
+  padding: 20px;
+   
+}
+
+.box {
+  border: 1px solid #e0e0e0; /* Light gray border */
+  border-radius: 8px;
+  padding: 20px;
+  width: 30%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff; /* White background for the boxes */
+  color: #333333; /* Dark gray text for readability */
+  text-align: center;
+}
+
+.box h3 {
+  margin-bottom: 15px;
+  color: #000000; /* Black for headings */
+}
+
+.box p {
+  margin-bottom: 20px;
+  color: #555555; /* Slightly lighter gray for paragraph text */
+}
+
+.box a {
+  text-decoration: none;
+  color: #007BFF; /* Blue for links to stand out */
+  font-weight: bold;
+}
+
+.box a:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
