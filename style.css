@@ -48,7 +48,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: #ed93cf; /* Teal */
+    background-color: #f6b6d7; /* Teal */
     color: white;
     text-align: center;
     border-bottom: 5px solid #f151d1; /* Darker Teal for separation */
@@ -298,13 +298,15 @@ header {
       transform: translateY(0);
     }
   }
-  /* Intro Section */
-.intro-content {
-  display: flex;
-  align-items: center; /* Vertically center the content and image */
-  gap: 40px; /* Space between text and image */
-}
 
+  .intro-content {
+    display: flex;
+    align-items: center; /* Vertically center the content and image */
+    gap: 40px; /* Space between text and image */
+  }
+  
+  /* Intro Section */
+/* General styling for the intro-text section */
 .intro-text {
   flex: 1; /* Take up remaining space */
   text-align: left; /* Align text to the left */
@@ -375,6 +377,7 @@ header {
   background-color: #ffffff; /* White background for the boxes */
   color: #333333; /* Dark gray text for readability */
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .box h3 {
@@ -387,10 +390,24 @@ header {
   color: #555555; /* Slightly lighter gray for paragraph text */
 }
 
+.box:hover {
+  transform: translateY(-10px); /* Move the box up slightly */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Increase shadow for depth */
+}
+
+
 .box a {
   text-decoration: none;
   color: #007BFF; /* Blue for links to stand out */
   font-weight: bold;
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .box a:hover {
