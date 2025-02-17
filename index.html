@@ -6,19 +6,27 @@
   <meta name="description" content="Girlsync - PCOS Risk Assessment: Empowering women to assess their PCOS risk with an interactive tool.">
   <title>Girlsync - PCOS Risk Assessment</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Add Font Awesome for icons (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <header>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
     <div class="container">
-      <div class="title-container">
-        <div class="title-text">
-          <h1>Girlsync</h1>
-          <p>Assess your PCOS Risk</p>
-        </div>
-        <img src="https://cdn.prod.website-files.com/65b16f0ee351dc8f2068f512/66128b0a6f261c7d55915d7a_who-we-p-800.png" alt="Girlsync Logo">
+      <div class="logo">
+        <a href="#"><img src=C:\Users\palak\Downloads\Girlsync.png alt="Girlsync Logo"></a>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#disclaimer">Disclaimer</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
       </div>
     </div>
-  </header>
+  </nav>
 
   <main>
     <section class="intro">
@@ -50,7 +58,7 @@
       </div>
     </section>
 
-    <section class="resources">
+    <section class="resources" id="resources">
       <div class="container">
         <h2>Learn More About PCOS</h2>
         <div class="boxes-container">
@@ -73,7 +81,7 @@
       </div>
     </section>
 
-    <section class="video-carousel">
+    <section class="video-carousel" id="videos">
       <div class="container">
         <div class="carousel">
           <button class="prev-btn" onclick="changeVideo(-1)">&#10094;</button>
@@ -87,7 +95,7 @@
       </div>
     </section>
 
-    <section class="disclaimer">
+    <section class="disclaimer" id="disclaimer">
       <div class="container">
         <p><strong>Disclaimer:</strong> Girlsync is an informational tool and not a diagnostic service. Please consult a healthcare professional for medical advice.</p>
       </div>
@@ -101,5 +109,14 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // JavaScript for Hamburger Menu
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
