@@ -6,31 +6,10 @@
   <meta name="description" content="Girlsync - PCOS Risk Assessment: Empowering women to assess their PCOS risk with an interactive tool.">
   <title>Girlsync - PCOS Risk Assessment</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Add Font Awesome for icons (optional) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <script src="//code.tidio.co/n1wexep9gnnme80jllc83slq8sc88dje.js" async></script>
 </head>
 <body>
-  <script>
-    window.addEventListener('mouseover', initLandbot, { once: true });
-    window.addEventListener('touchstart', initLandbot, { once: true });
-    var myLandbot;
-    function initLandbot() {
-      if (!myLandbot) {
-        var s = document.createElement('script');
-        s.type = "module"
-        s.async = true;
-        s.addEventListener('load', function() {
-          var myLandbot = new Landbot.Livechat({
-            configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-2879474-QGC8Y7IJ5T5YIY8O/index.json',
-          });
-        });
-        s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
-        var x = document.getElementsByTagName('script')[0];
-        x.parentNode.insertBefore(s, x);
-      }
-    }
-    </script>
+
   <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="container">
@@ -50,20 +29,17 @@
   </nav>
 
   <main>
-    <section class="intro">
+    <section class="intro" id="home">
       <div class="container">
         <div class="intro-content">
           <div class="intro-text">
             <h2>Take Charge of Your Health</h2>
             <p>Discover your PCOS risk with Girlsync's engaging questionnaire. Receive tailored insights and guidance just for you.</p>
-            <p> Early detection can change lives, yet
-              awareness remains low. GirlSync exists to
-              break the silence, provide clarity, and
-              empower women to take control of their
-              reproductive health.</p>
+            <p>Early detection can change lives, yet awareness remains low. GirlSync exists to break the silence, provide clarity, and empower women to take control of their reproductive health.</p>
             <div class="consent">
               <label>
-                <input type="checkbox" id="consent-checkbox"> I understand and agree to proceed with the assessment.
+                <input type="checkbox" id="consent-checkbox">
+                I understand and agree to proceed with the assessment.
               </label>
             </div>
             <a href="assessment.html" class="cta-button disabled" id="start-assessment" disabled>Start Assessment</a>
@@ -129,15 +105,49 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Hamburger Menu Script -->
   <script>
-    // JavaScript for Hamburger Menu
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
 
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
     });
+
+    // Consent checkbox to enable Start button
+    const checkbox = document.getElementById('consent-checkbox');
+    const startButton = document.getElementById('start-assessment');
+
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        startButton.classList.remove('disabled');
+        startButton.removeAttribute('disabled');
+      } else {
+        startButton.classList.add('disabled');
+        startButton.setAttribute('disabled', 'true');
+      }
+    });
   </script>
+
+  <!-- Voiceflow Chatbot -->
+  <script type="text/javascript">
+    (function(d, t) {
+        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        v.onload = function() {
+          window.voiceflow.chat.load({
+            verify: { projectID: '68007207503fdd626caa7e82' },
+            url: 'https://general-runtime.voiceflow.com',
+            versionID: 'production',
+            voice: {
+              url: "https://runtime-api.voiceflow.com"
+            }
+          });
+        }
+        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; 
+        v.type = "text/javascript"; 
+        s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+
 </body>
 </html>
